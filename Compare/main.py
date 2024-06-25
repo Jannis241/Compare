@@ -1,5 +1,5 @@
 import os
-
+import random
 currentDir = os.path.dirname(os.path.abspath(__file__))
 frageCount = 1
 
@@ -30,11 +30,13 @@ def getWords():
 
 def askPreference(word1, word2):
     while True:
+        return random.choice([word1, word2])
         print(f"Frage {frageCount}")
         print(f"(A) {word1.content}")
         print(f"(B) {word2.content}")
         choice = input(f"Wahl: ").lower()
         print("")
+        
         if choice == "a":
             return word1
         elif choice == "b":
