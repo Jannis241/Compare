@@ -29,21 +29,23 @@ def getWords():
     return words
 
 def askPreference(word1, word2):
-    print(f"Frage {frageCount}")
-    print(f"(A) {word1.content}")
-    print(f"(B) {word2.content}")
-    choice = input(f"Wahl: ").lower()
-    print("")
-    if choice == "a":
-        return word1
-    elif choice == "b":
-        return word2
-    else:
-        print("error")
-        exit()
+    while True:
+        print(f"Frage {frageCount}")
+        print(f"(A) {word1.content}")
+        print(f"(B) {word2.content}")
+        choice = input(f"Wahl: ").lower()
+        print("")
+        if choice == "a":
+            return word1
+        elif choice == "b":
+            return word2
+        else:
+            print("Ungültige Eingabe. Bitte wählen Sie 'A' oder 'B'.")  
                   
 def writeOutput(sortedSelection):
     outputPath = os.path.join(currentDir, 'outputs.txt')
+    if not os.path.exists(outputPath):
+        open(outputPath, 'w').close()  # Erstelle die Datei, falls sie nicht existiert
     with open(outputPath, 'w', encoding='utf-8') as file:
         for word in sortedSelection:
             file.write(word + '\n')
@@ -91,15 +93,18 @@ for comb in possibleCombinations:
             word2.worseWords.append(word1)
             word1.betterWords.append(word2)
 
-rankMap = {} # rank : word
+rankMap = {}  # rank : word
 
 for word in wordList:
     rank = word.getRank()
-    rankMap[rank] = word.content
+    if rank not in rankMap:
+        rankMap[rank] = []
+    rankMap[rank].append(word.content)
 
 rankList = []
+for rank in range(len(wordList)):
+    if rank in rankMap:
+        for word in rankMap[rank]:
+            rankList.append(f"{rank + 1}. {word}")
 
-for rank in range(0, len(wordList)):
-    rankList.append(rankMap[rank])
-    
 writeOutput(rankList)
