@@ -47,7 +47,7 @@ def writeOutput(sortedSelection):
     if not os.path.exists(outputPath):
         open(outputPath, 'w').close()  # Erstelle die Datei, falls sie nicht existiert
     with open(outputPath, 'w', encoding='utf-8') as file:
-        file.write("Das hier ist dein Ranking basierend auf deinen Antworten!" + '\n')
+        file.write("Das hier ist das Ranking basierend auf deinen Antworten!" + '\n')
         file.write('\n')
         for word in sortedSelection:
             file.write(word + '\n')
